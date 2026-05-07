@@ -1,0 +1,127 @@
+# Hand-curated ykern overlay for the generic-netlink ethtool family.
+#
+# Operation cmd_id ↔ name bindings live in
+# metadata/netlink/genl/_generated/ethtool.yaml — regenerate it from kernel
+# headers with `make regen-metadata-ethtool`. This file just attaches
+# human-friendly descriptions, keyed by op name (matching the constant in
+# <linux/ethtool_netlink.h> minus the `ETHTOOL_MSG_` prefix).
+
+family: ethtool
+
+short: Ethtool — modern NIC configuration via netlink
+
+long: |
+  Ethtool exposes per-NIC configuration knobs and statistics. The classic
+  ethtool ioctl interface (ETHTOOL_GLINK, ETHTOOL_SCHANNELS, ...) is being
+  superseded by the genetlink commands defined in <linux/ethtool_netlink.h>.
+  Each operation comes in matched *_GET / *_SET / *_NTF triples: GET reads
+  current state, SET writes new state, NTF is the notification emitted on
+  the monitor multicast group when state changes.
+
+operations:
+  STRSET_GET:
+    short: Read a labeled string set (feature names, statistic labels, ...)
+    long: |
+      Returns one or more named string lists registered by the driver.
+      Other commands (FEATURES_GET, the various stats commands) reference
+      these by index, so STRSET_GET is the lookup that turns a numeric
+      index into a human-readable label.
+  LINKINFO_GET:
+    short: Read link-level info (PHY type, port, autoneg, transceiver)
+  LINKINFO_SET:
+    short: Configure link-level info (PHY type, port, transceiver)
+  LINKMODES_GET:
+    short: Read advertised, supported, and link-partner mode bitmaps
+  LINKMODES_SET:
+    short: Set advertised link modes and autoneg behaviour
+  LINKSTATE_GET:
+    short: Read carrier state, SQI (signal quality), and ext-state
+  DEBUG_GET:
+    short: Read the netif_msg_level mask
+  DEBUG_SET:
+    short: Write the netif_msg_level mask
+  WOL_GET:
+    short: Read Wake-on-LAN configuration
+  WOL_SET:
+    short: Write Wake-on-LAN configuration
+  FEATURES_GET:
+    short: Read NETIF_F_* offload feature flags (TSO, GSO, RX-CSUM, ...)
+    long: |
+      Returns four bitmaps for each registered feature: hw (supported by
+      hardware), wanted (user-requested), active (currently enabled), and
+      nochange (cannot be toggled at runtime). Combined with STRSET_GET
+      these decode into the flag names ethtool(8) prints under "Features".
+  FEATURES_SET:
+    short: Toggle NETIF_F_* offload feature flags
+  PRIVFLAGS_GET:
+    short: Read driver-private flags
+  PRIVFLAGS_SET:
+    short: Toggle driver-private flags
+  RINGS_GET:
+    short: Read RX / TX ring sizes
+  RINGS_SET:
+    short: Configure RX / TX ring sizes
+  CHANNELS_GET:
+    short: Read RX / TX / combined / other queue counts
+  CHANNELS_SET:
+    short: Configure queue counts
+  COALESCE_GET:
+    short: Read interrupt-coalescing parameters
+  COALESCE_SET:
+    short: Configure interrupt-coalescing parameters
+  PAUSE_GET:
+    short: Read pause-frame settings (rx, tx, autoneg)
+  PAUSE_SET:
+    short: Configure pause-frame settings
+  EEE_GET:
+    short: Read Energy-Efficient-Ethernet settings
+  EEE_SET:
+    short: Configure Energy-Efficient-Ethernet
+  TSINFO_GET:
+    short: Read PTP / hardware-timestamping capabilities
+  CABLE_TEST_ACT:
+    short: Trigger a cable diagnostic test
+  CABLE_TEST_TDR_ACT:
+    short: Trigger a Time-Domain-Reflectometry cable test
+  TUNNEL_INFO_GET:
+    short: Read offload-tunnel info (UDP ports, encap types)
+  FEC_GET:
+    short: Read Forward-Error-Correction settings
+  FEC_SET:
+    short: Configure Forward-Error-Correction
+  MODULE_EEPROM_GET:
+    short: Read pluggable-module (SFP/QSFP) EEPROM
+  STATS_GET:
+    short: Read driver-supplied counters
+  PHC_VCLOCKS_GET:
+    short: Read PTP virtual-clock list
+  MODULE_GET:
+    short: Read pluggable-module power / state
+  MODULE_SET:
+    short: Configure pluggable-module power / state
+  PSE_GET:
+    short: Read Power-Sourcing-Equipment (PoE) status
+  PSE_SET:
+    short: Configure Power-Sourcing-Equipment (PoE)
+  RSS_GET:
+    short: Read Receive-Side-Scaling configuration
+  PLCA_GET_CFG:
+    short: Read PLCA (10BASE-T1S multidrop) configuration
+  PLCA_SET_CFG:
+    short: Configure PLCA (10BASE-T1S multidrop)
+  PLCA_GET_STATUS:
+    short: Read PLCA per-node status
+  MM_GET:
+    short: Read MAC-Merge / frame-preemption settings
+  MM_SET:
+    short: Configure MAC-Merge / frame-preemption
+
+mcast_groups:
+  monitor:
+    short: Per-interface configuration change notifications
+    long: |
+      Subscribers receive the *_NTF messages this family emits whenever
+      ethtool configuration changes out-of-band: another tool tweaking
+      settings, the driver toggling state, link events, hotplug. Joining
+      this group lets a userspace daemon keep its cached view in sync
+      without re-polling.

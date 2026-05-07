@@ -1,0 +1,24 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/if_macsec.h
+# Enum:   anonymous, starts with MACSEC_CMD_GET_TXSC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-macsec`. Hand-written
+# descriptions live in metadata/netlink/genl/macsec.yaml and are
+# merged at load time.
+
+family: macsec
+
+operations:
+  0: { name: GET_TXSC }
+  1: { name: ADD_RXSC }
+  2: { name: DEL_RXSC }
+  3: { name: UPD_RXSC }
+  4: { name: ADD_TXSA }
+  5: { name: DEL_TXSA }
+  6: { name: UPD_TXSA }
+  7: { name: ADD_RXSA }
+  8: { name: DEL_RXSA }
+  9: { name: UPD_RXSA }
+  10: { name: UPD_OFFLOAD }

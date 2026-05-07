@@ -43,16 +43,28 @@ static struct ykern_ycore_void_result ynl_populate_children(struct ykern_ycore_o
     struct ykern_ynetlink_ynetlink *t =
         ykern_container_of(self, struct ykern_ynetlink_ynetlink, base);
 
+    /* Generic netlink namespace. */
     struct ykern_ynetlink_genl_namespace_ptr_result nsr =
         ykern_ynetlink_genl_namespace_create(t);
     YKERN_RETURN_IF_ERR(ykern_ycore_void, nsr,
                         "ynetlink: failed to create genl namespace");
-
     struct ykern_ycore_void_result ar =
         ykern_ycore_object_append_child(self, &nsr.value->base);
     if (YKERN_IS_ERR(ar)) {
         ykern_ycore_object_destroy(&nsr.value->base);
         return YKERN_ERR(ykern_ycore_void, "ynetlink: append genl namespace failed", ar);
+    }
+
+    /* rtnetlink (NETLINK_ROUTE) namespace — links, addresses, routes, neighs. */
+    struct ykern_ycore_object_ptr_result rtr =
+        ykern_ynetlink_rtnl_namespace_create();
+    YKERN_RETURN_IF_ERR(ykern_ycore_void, rtr,
+                        "ynetlink: failed to create rtnl namespace");
+    struct ykern_ycore_void_result ar2 =
+        ykern_ycore_object_append_child(self, rtr.value);
+    if (YKERN_IS_ERR(ar2)) {
+        ykern_ycore_object_destroy(rtr.value);
+        return YKERN_ERR(ykern_ycore_void, "ynetlink: append rtnl namespace failed", ar2);
     }
     return YKERN_OK_VOID();
 }
@@ -131,4 +143,14 @@ struct ykern_ynetlink_ynetlink_socket_result ykern_ynetlink_ynetlink_socket_get(
 uint32_t ykern_ynetlink_ynetlink_next_seq(struct ykern_ynetlink_ynetlink *self)
 {
     return ++self->seq;
+}
+
+struct ykern_ynetlink_ynetlink *ykern_ynetlink_find_transport(
+    struct ykern_ycore_object *node)
+{
+    while (node && node->kind != YKERN_YCORE_OBJECT_KIND_TRANSPORT) {
+        node = node->parent;
+    }
+    if (!node) return NULL;
+    return ykern_container_of(node, struct ykern_ynetlink_ynetlink, base);
 }

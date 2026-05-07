@@ -1,0 +1,33 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/mptcp_pm.h
+# Enum:   anonymous, starts with MPTCP_PM_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-mptcp_pm`. Hand-written
+# descriptions live in metadata/netlink/genl/mptcp_pm.yaml and are
+# merged at load time.
+
+family: mptcp_pm
+
+operations:
+  1: { name: ADD_ADDR }
+  2: { name: DEL_ADDR }
+  3: { name: GET_ADDR }
+  4: { name: FLUSH_ADDRS }
+  5: { name: SET_LIMITS }
+  6: { name: GET_LIMITS }
+  7: { name: SET_FLAGS }
+  8: { name: ANNOUNCE }
+  9: { name: REMOVE }
+  10: { name: SUBFLOW_CREATE }
+  11: { name: SUBFLOW_DESTROY }
+
+attribute_sets:
+  ATTRS:
+    1: { name: ADDR }
+    2: { name: RCV_ADD_ADDRS }
+    3: { name: SUBFLOWS }
+    4: { name: TOKEN }
+    5: { name: LOC_ID }
+    6: { name: ADDR_REMOTE }

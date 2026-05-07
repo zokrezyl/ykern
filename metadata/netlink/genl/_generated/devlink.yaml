@@ -1,0 +1,288 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/devlink.h
+# Enum:   anonymous, starts with DEVLINK_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-devlink`. Hand-written
+# descriptions live in metadata/netlink/genl/devlink.yaml and are
+# merged at load time.
+
+family: devlink
+
+operations:
+  1: { name: GET }
+  2: { name: SET }
+  3: { name: NEW }
+  4: { name: DEL }
+  5: { name: PORT_GET }
+  6: { name: PORT_SET }
+  7: { name: PORT_NEW }
+  8: { name: PORT_DEL }
+  9: { name: PORT_SPLIT }
+  10: { name: PORT_UNSPLIT }
+  11: { name: SB_GET }
+  12: { name: SB_SET }
+  13: { name: SB_NEW }
+  14: { name: SB_DEL }
+  15: { name: SB_POOL_GET }
+  16: { name: SB_POOL_SET }
+  17: { name: SB_POOL_NEW }
+  18: { name: SB_POOL_DEL }
+  19: { name: SB_PORT_POOL_GET }
+  20: { name: SB_PORT_POOL_SET }
+  21: { name: SB_PORT_POOL_NEW }
+  22: { name: SB_PORT_POOL_DEL }
+  23: { name: SB_TC_POOL_BIND_GET }
+  24: { name: SB_TC_POOL_BIND_SET }
+  25: { name: SB_TC_POOL_BIND_NEW }
+  26: { name: SB_TC_POOL_BIND_DEL }
+  27: { name: SB_OCC_SNAPSHOT }
+  28: { name: SB_OCC_MAX_CLEAR }
+  29: { name: ESWITCH_GET }
+  30: { name: ESWITCH_SET }
+  31: { name: DPIPE_TABLE_GET }
+  32: { name: DPIPE_ENTRIES_GET }
+  33: { name: DPIPE_HEADERS_GET }
+  34: { name: DPIPE_TABLE_COUNTERS_SET }
+  35: { name: RESOURCE_SET }
+  36: { name: RESOURCE_DUMP }
+  37: { name: RELOAD }
+  38: { name: PARAM_GET }
+  39: { name: PARAM_SET }
+  40: { name: PARAM_NEW }
+  41: { name: PARAM_DEL }
+  42: { name: REGION_GET }
+  43: { name: REGION_SET }
+  44: { name: REGION_NEW }
+  45: { name: REGION_DEL }
+  46: { name: REGION_READ }
+  47: { name: PORT_PARAM_GET }
+  48: { name: PORT_PARAM_SET }
+  49: { name: PORT_PARAM_NEW }
+  50: { name: PORT_PARAM_DEL }
+  51: { name: INFO_GET }
+  52: { name: HEALTH_REPORTER_GET }
+  53: { name: HEALTH_REPORTER_SET }
+  54: { name: HEALTH_REPORTER_RECOVER }
+  55: { name: HEALTH_REPORTER_DIAGNOSE }
+  56: { name: HEALTH_REPORTER_DUMP_GET }
+  57: { name: HEALTH_REPORTER_DUMP_CLEAR }
+  58: { name: FLASH_UPDATE }
+  59: { name: FLASH_UPDATE_END }
+  60: { name: FLASH_UPDATE_STATUS }
+  61: { name: TRAP_GET }
+  62: { name: TRAP_SET }
+  63: { name: TRAP_NEW }
+  64: { name: TRAP_DEL }
+  65: { name: TRAP_GROUP_GET }
+  66: { name: TRAP_GROUP_SET }
+  67: { name: TRAP_GROUP_NEW }
+  68: { name: TRAP_GROUP_DEL }
+  69: { name: TRAP_POLICER_GET }
+  70: { name: TRAP_POLICER_SET }
+  71: { name: TRAP_POLICER_NEW }
+  72: { name: TRAP_POLICER_DEL }
+  73: { name: HEALTH_REPORTER_TEST }
+  74: { name: RATE_GET }
+  75: { name: RATE_SET }
+  76: { name: RATE_NEW }
+  77: { name: RATE_DEL }
+  78: { name: LINECARD_GET }
+  79: { name: LINECARD_SET }
+  80: { name: LINECARD_NEW }
+  81: { name: LINECARD_DEL }
+  82: { name: SELFTESTS_GET }
+  83: { name: SELFTESTS_RUN }
+  84: { name: NOTIFY_FILTER_SET }
+
+attribute_sets:
+  ATTRS:
+    1: { name: BUS_NAME, type: string }
+    2: { name: DEV_NAME, type: string }
+    3: { name: PORT_INDEX, type: u32 }
+    4: { name: PORT_TYPE, type: u16 }
+    5: { name: PORT_DESIRED_TYPE, type: u16 }
+    6: { name: PORT_NETDEV_IFINDEX, type: u32 }
+    7: { name: PORT_NETDEV_NAME, type: string }
+    8: { name: PORT_IBDEV_NAME, type: string }
+    9: { name: PORT_SPLIT_COUNT, type: u32 }
+    10: { name: PORT_SPLIT_GROUP, type: u32 }
+    11: { name: SB_INDEX, type: u32 }
+    12: { name: SB_SIZE, type: u32 }
+    13: { name: SB_INGRESS_POOL_COUNT, type: u16 }
+    14: { name: SB_EGRESS_POOL_COUNT, type: u16 }
+    15: { name: SB_INGRESS_TC_COUNT, type: u16 }
+    16: { name: SB_EGRESS_TC_COUNT, type: u16 }
+    17: { name: SB_POOL_INDEX, type: u16 }
+    18: { name: SB_POOL_TYPE, type: u8 }
+    19: { name: SB_POOL_SIZE, type: u32 }
+    20: { name: SB_POOL_THRESHOLD_TYPE, type: u8 }
+    21: { name: SB_THRESHOLD, type: u32 }
+    22: { name: SB_TC_INDEX, type: u16 }
+    23: { name: SB_OCC_CUR, type: u32 }
+    24: { name: SB_OCC_MAX, type: u32 }
+    25: { name: ESWITCH_MODE, type: u16 }
+    26: { name: ESWITCH_INLINE_MODE, type: u8 }
+    27: { name: DPIPE_TABLES, type: nested }
+    28: { name: DPIPE_TABLE, type: nested }
+    29: { name: DPIPE_TABLE_NAME, type: string }
+    30: { name: DPIPE_TABLE_SIZE, type: u64 }
+    31: { name: DPIPE_TABLE_MATCHES, type: nested }
+    32: { name: DPIPE_TABLE_ACTIONS, type: nested }
+    33: { name: DPIPE_TABLE_COUNTERS_ENABLED, type: u8 }
+    34: { name: DPIPE_ENTRIES, type: nested }
+    35: { name: DPIPE_ENTRY, type: nested }
+    36: { name: DPIPE_ENTRY_INDEX, type: u64 }
+    37: { name: DPIPE_ENTRY_MATCH_VALUES, type: nested }
+    38: { name: DPIPE_ENTRY_ACTION_VALUES, type: nested }
+    39: { name: DPIPE_ENTRY_COUNTER, type: u64 }
+    40: { name: DPIPE_MATCH, type: nested }
+    41: { name: DPIPE_MATCH_VALUE, type: nested }
+    42: { name: DPIPE_MATCH_TYPE, type: u32 }
+    43: { name: DPIPE_ACTION, type: nested }
+    44: { name: DPIPE_ACTION_VALUE, type: nested }
+    45: { name: DPIPE_ACTION_TYPE, type: u32 }
+    46: { name: DPIPE_VALUE }
+    47: { name: DPIPE_VALUE_MASK }
+    48: { name: DPIPE_VALUE_MAPPING, type: u32 }
+    49: { name: DPIPE_HEADERS, type: nested }
+    50: { name: DPIPE_HEADER, type: nested }
+    51: { name: DPIPE_HEADER_NAME, type: string }
+    52: { name: DPIPE_HEADER_ID, type: u32 }
+    53: { name: DPIPE_HEADER_FIELDS, type: nested }
+    54: { name: DPIPE_HEADER_GLOBAL, type: u8 }
+    55: { name: DPIPE_HEADER_INDEX, type: u32 }
+    56: { name: DPIPE_FIELD, type: nested }
+    57: { name: DPIPE_FIELD_NAME, type: string }
+    58: { name: DPIPE_FIELD_ID, type: u32 }
+    59: { name: DPIPE_FIELD_BITWIDTH, type: u32 }
+    60: { name: DPIPE_FIELD_MAPPING_TYPE, type: u32 }
+    61: { name: PAD }
+    62: { name: ESWITCH_ENCAP_MODE, type: u8 }
+    63: { name: RESOURCE_LIST, type: nested }
+    64: { name: RESOURCE, type: nested }
+    65: { name: RESOURCE_NAME, type: string }
+    66: { name: RESOURCE_ID, type: u64 }
+    67: { name: RESOURCE_SIZE, type: u64 }
+    68: { name: RESOURCE_SIZE_NEW, type: u64 }
+    69: { name: RESOURCE_SIZE_VALID, type: u8 }
+    70: { name: RESOURCE_SIZE_MIN, type: u64 }
+    71: { name: RESOURCE_SIZE_MAX, type: u64 }
+    72: { name: RESOURCE_SIZE_GRAN, type: u64 }
+    73: { name: RESOURCE_UNIT, type: u8 }
+    74: { name: RESOURCE_OCC, type: u64 }
+    75: { name: DPIPE_TABLE_RESOURCE_ID, type: u64 }
+    76: { name: DPIPE_TABLE_RESOURCE_UNITS, type: u64 }
+    77: { name: PORT_FLAVOUR, type: u16 }
+    78: { name: PORT_NUMBER, type: u32 }
+    79: { name: PORT_SPLIT_SUBPORT_NUMBER, type: u32 }
+    80: { name: PARAM, type: nested }
+    81: { name: PARAM_NAME, type: string }
+    82: { name: PARAM_GENERIC, type: flag }
+    83: { name: PARAM_TYPE, type: u8 }
+    84: { name: PARAM_VALUES_LIST, type: nested }
+    85: { name: PARAM_VALUE, type: nested }
+    86: { name: PARAM_VALUE_DATA, type: dynamic }
+    87: { name: PARAM_VALUE_CMODE, type: u8 }
+    88: { name: REGION_NAME, type: string }
+    89: { name: REGION_SIZE, type: u64 }
+    90: { name: REGION_SNAPSHOTS, type: nested }
+    91: { name: REGION_SNAPSHOT, type: nested }
+    92: { name: REGION_SNAPSHOT_ID, type: u32 }
+    93: { name: REGION_CHUNKS, type: nested }
+    94: { name: REGION_CHUNK, type: nested }
+    95: { name: REGION_CHUNK_DATA, type: binary }
+    96: { name: REGION_CHUNK_ADDR, type: u64 }
+    97: { name: REGION_CHUNK_LEN, type: u64 }
+    98: { name: INFO_DRIVER_NAME, type: string }
+    99: { name: INFO_SERIAL_NUMBER, type: string }
+    100: { name: INFO_VERSION_FIXED, type: nested }
+    101: { name: INFO_VERSION_RUNNING, type: nested }
+    102: { name: INFO_VERSION_STORED, type: nested }
+    103: { name: INFO_VERSION_NAME, type: string }
+    104: { name: INFO_VERSION_VALUE, type: string }
+    105: { name: SB_POOL_CELL_SIZE, type: u32 }
+    106: { name: FMSG, type: nested }
+    107: { name: FMSG_OBJ_NEST_START, type: flag }
+    108: { name: FMSG_PAIR_NEST_START, type: flag }
+    109: { name: FMSG_ARR_NEST_START, type: flag }
+    110: { name: FMSG_NEST_END, type: flag }
+    111: { name: FMSG_OBJ_NAME, type: string }
+    112: { name: FMSG_OBJ_VALUE_TYPE, type: u8 }
+    113: { name: FMSG_OBJ_VALUE_DATA, type: dynamic }
+    114: { name: HEALTH_REPORTER, type: nested }
+    115: { name: HEALTH_REPORTER_NAME, type: string }
+    116: { name: HEALTH_REPORTER_STATE, type: u8 }
+    117: { name: HEALTH_REPORTER_ERR_COUNT, type: u64 }
+    118: { name: HEALTH_REPORTER_RECOVER_COUNT, type: u64 }
+    119: { name: HEALTH_REPORTER_DUMP_TS, type: u64 }
+    120: { name: HEALTH_REPORTER_GRACEFUL_PERIOD, type: u64 }
+    121: { name: HEALTH_REPORTER_AUTO_RECOVER, type: u8 }
+    122: { name: FLASH_UPDATE_FILE_NAME, type: string }
+    123: { name: FLASH_UPDATE_COMPONENT, type: string }
+    124: { name: FLASH_UPDATE_STATUS_MSG, type: string }
+    125: { name: FLASH_UPDATE_STATUS_DONE, type: u64 }
+    126: { name: FLASH_UPDATE_STATUS_TOTAL, type: u64 }
+    127: { name: PORT_PCI_PF_NUMBER, type: u16 }
+    128: { name: PORT_PCI_VF_NUMBER, type: u16 }
+    129: { name: STATS, type: nested }
+    130: { name: TRAP_NAME, type: string }
+    131: { name: TRAP_ACTION, type: u8 }
+    132: { name: TRAP_TYPE, type: u8 }
+    133: { name: TRAP_GENERIC, type: flag }
+    134: { name: TRAP_METADATA, type: nested }
+    135: { name: TRAP_GROUP_NAME, type: string }
+    136: { name: RELOAD_FAILED, type: u8 0 or 1 }
+    137: { name: HEALTH_REPORTER_DUMP_TS_NS, type: u64 }
+    138: { name: NETNS_FD, type: u32 }
+    139: { name: NETNS_PID, type: u32 }
+    140: { name: NETNS_ID, type: u32 }
+    141: { name: HEALTH_REPORTER_AUTO_DUMP, type: u8 }
+    142: { name: TRAP_POLICER_ID, type: u32 }
+    143: { name: TRAP_POLICER_RATE, type: u64 }
+    144: { name: TRAP_POLICER_BURST, type: u64 }
+    145: { name: PORT_FUNCTION, type: nested }
+    146: { name: INFO_BOARD_SERIAL_NUMBER, type: string }
+    147: { name: PORT_LANES, type: u32 }
+    148: { name: PORT_SPLITTABLE, type: u8 }
+    149: { name: PORT_EXTERNAL, type: u8 }
+    150: { name: PORT_CONTROLLER_NUMBER, type: u32 }
+    151: { name: FLASH_UPDATE_STATUS_TIMEOUT, type: u64 }
+    152: { name: FLASH_UPDATE_OVERWRITE_MASK, type: bitfield32 }
+    153: { name: RELOAD_ACTION, type: u8 }
+    154: { name: RELOAD_ACTIONS_PERFORMED, type: bitfield32 }
+    155: { name: RELOAD_LIMITS, type: bitfield32 }
+    156: { name: DEV_STATS, type: nested }
+    157: { name: RELOAD_STATS, type: nested }
+    158: { name: RELOAD_STATS_ENTRY, type: nested }
+    159: { name: RELOAD_STATS_LIMIT, type: u8 }
+    160: { name: RELOAD_STATS_VALUE, type: u32 }
+    161: { name: REMOTE_RELOAD_STATS, type: nested }
+    162: { name: RELOAD_ACTION_INFO, type: nested }
+    163: { name: RELOAD_ACTION_STATS, type: nested }
+    164: { name: PORT_PCI_SF_NUMBER, type: u32 }
+    165: { name: RATE_TYPE, type: u16 }
+    166: { name: RATE_TX_SHARE, type: u64 }
+    167: { name: RATE_TX_MAX, type: u64 }
+    168: { name: RATE_NODE_NAME, type: string }
+    169: { name: RATE_PARENT_NODE_NAME, type: string }
+    170: { name: REGION_MAX_SNAPSHOTS, type: u32 }
+    171: { name: LINECARD_INDEX, type: u32 }
+    172: { name: LINECARD_STATE, type: u8 }
+    173: { name: LINECARD_TYPE, type: string }
+    174: { name: LINECARD_SUPPORTED_TYPES, type: nested }
+    175: { name: NESTED_DEVLINK, type: nested }
+    176: { name: SELFTESTS, type: nested }
+    177: { name: RATE_TX_PRIORITY, type: u32 }
+    178: { name: RATE_TX_WEIGHT, type: u32 }
+    179: { name: REGION_DIRECT, type: flag }
+  SELFTEST_ID:
+    1: { name: FLASH, type: flag }
+  SELFTEST_RESULT:
+    2: { name: ID, type: "u32, enum devlink_attr_selftest_id" }
+    3: { name: STATUS, type: "u8, enum devlink_selftest_status" }
+  STATS:
+    0: { name: RX_PACKETS, type: u64 }
+    1: { name: RX_BYTES, type: u64 }
+    2: { name: RX_DROPPED, type: u64 }

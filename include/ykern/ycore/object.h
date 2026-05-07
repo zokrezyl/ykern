@@ -39,6 +39,7 @@ enum ykern_ycore_object_kind {
     YKERN_YCORE_OBJECT_KIND_NAMESPACE,
     YKERN_YCORE_OBJECT_KIND_FAMILY,
     YKERN_YCORE_OBJECT_KIND_OPERATION,
+    YKERN_YCORE_OBJECT_KIND_MCAST_GROUP,
     YKERN_YCORE_OBJECT_KIND_ATTRIBUTE,
     YKERN_YCORE_OBJECT_KIND_VALUE,
 };
@@ -56,6 +57,27 @@ struct ykern_ycore_object_list {
 
 YKERN_YRESULT_DECLARE(ykern_ycore_object_list, struct ykern_ycore_object_list);
 
+/*-----------------------------------------------------------------------------
+ * Invoke arguments — passed to ykern_ycore_object_invoke().
+ *
+ * Strings only at this layer; the receiving op interprets them according to
+ * its own typed schema (an op that wants a u32 parses the string as one and
+ * errors if it can't).  Both pointers are non-owning — the caller keeps the
+ * underlying buffers alive for the duration of the invoke call.
+ *---------------------------------------------------------------------------*/
+struct ykern_ycore_invoke_arg {
+    const char *key;
+    const char *value;
+};
+
+struct ykern_ycore_invoke_args {
+    const struct ykern_ycore_invoke_arg *entries;
+    size_t count;
+};
+
+const char *ykern_ycore_invoke_args_lookup(const struct ykern_ycore_invoke_args *args,
+                                           const char *key);
+
 /*=============================================================================
  * Vtable
  *
@@ -71,6 +93,13 @@ struct ykern_ycore_object_ops {
     struct ykern_ycore_text_result (*get_long_description)(struct ykern_ycore_object *self);
 
     struct ykern_ycore_void_result (*populate_children)(struct ykern_ycore_object *self);
+
+    /* Invoke this object as an operation. Most node kinds leave this NULL;
+     * only OPERATION nodes wire it.  Returns a human-readable text rendering
+     * of the kernel's response (or an error result describing why the call
+     * could not be made / what the kernel said). */
+    struct ykern_ycore_text_result (*invoke)(struct ykern_ycore_object *self,
+                                             const struct ykern_ycore_invoke_args *args);
 
     void (*destroy_impl)(struct ykern_ycore_object *self);
 };
@@ -102,6 +131,9 @@ struct ykern_ycore_object_list_result ykern_ycore_object_get_children(
     struct ykern_ycore_object *self);
 
 struct ykern_ycore_void_result ykern_ycore_object_refresh(struct ykern_ycore_object *self);
+
+struct ykern_ycore_text_result ykern_ycore_object_invoke(
+    struct ykern_ycore_object *self, const struct ykern_ycore_invoke_args *args);
 
 void ykern_ycore_object_destroy(struct ykern_ycore_object *self);
 

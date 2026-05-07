@@ -1,0 +1,34 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/handshake.h
+# Enum:   anonymous, starts with HANDSHAKE_CMD_READY
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-handshake`. Hand-written
+# descriptions live in metadata/netlink/genl/handshake.yaml and are
+# merged at load time.
+
+family: handshake
+
+operations:
+  1: { name: READY }
+  2: { name: ACCEPT }
+  3: { name: DONE }
+
+attribute_sets:
+  ACCEPT:
+    1: { name: SOCKFD }
+    2: { name: HANDLER_CLASS }
+    3: { name: MESSAGE_TYPE }
+    4: { name: TIMEOUT }
+    5: { name: AUTH_MODE }
+    6: { name: PEER_IDENTITY }
+    7: { name: CERTIFICATE }
+    8: { name: PEERNAME }
+  DONE:
+    1: { name: STATUS }
+    2: { name: SOCKFD }
+    3: { name: REMOTE_AUTH }
+  X509:
+    1: { name: CERT }
+    2: { name: PRIVKEY }

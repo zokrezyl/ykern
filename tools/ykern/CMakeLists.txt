@@ -1,6 +1,6 @@
 # ykern CLI — interactive browser for the kernel-object tree.
-add_executable(ykern main.c)
-target_link_libraries(ykern PRIVATE ykern_ycore ykern_ynetlink)
+add_executable(ykern main.c color.c)
+target_link_libraries(ykern PRIVATE ykern_ycore ykern_ynetlink ykern_ysys ykern_yproc)
 
 # Place the binary at the build-dir root so it's runnable as
 # `./<build-dir>/ykern` rather than `./<build-dir>/tools/ykern/ykern`.

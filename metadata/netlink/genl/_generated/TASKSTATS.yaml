@@ -1,0 +1,24 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/taskstats.h
+# Enum:   anonymous, starts with TASKSTATS_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-TASKSTATS`. Hand-written
+# descriptions live in metadata/netlink/genl/TASKSTATS.yaml and are
+# merged at load time.
+
+family: TASKSTATS
+
+operations:
+  1: { name: GET }
+  2: { name: NEW }
+
+attribute_sets:
+  ATTRS:
+    1: { name: PID, type: Process id }
+    2: { name: TGID, type: Thread group id }
+    3: { name: STATS, type: taskstats structure }
+    4: { name: AGGR_PID, type: contains pid + stats }
+    5: { name: AGGR_TGID, type: contains tgid + stats }
+    6: { name: NULL, type: contains nothing }

@@ -1,0 +1,30 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/ioam6_genl.h
+# Enum:   anonymous, starts with IOAM6_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-IOAM6`. Hand-written
+# descriptions live in metadata/netlink/genl/IOAM6.yaml and are
+# merged at load time.
+
+family: IOAM6
+
+operations:
+  1: { name: ADD_NAMESPACE }
+  2: { name: DEL_NAMESPACE }
+  3: { name: DUMP_NAMESPACES }
+  4: { name: ADD_SCHEMA }
+  5: { name: DEL_SCHEMA }
+  6: { name: DUMP_SCHEMAS }
+  7: { name: NS_SET_SCHEMA }
+
+attribute_sets:
+  ATTRS:
+    1: { name: NS_ID, type: u16 }
+    2: { name: NS_DATA, type: u32 }
+    3: { name: NS_DATA_WIDE, type: u64 }
+    4: { name: SC_ID, type: u32 }
+    5: { name: SC_DATA, type: Binary }
+    6: { name: SC_NONE, type: Flag }
+    7: { name: PAD }

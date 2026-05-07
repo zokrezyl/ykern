@@ -1,0 +1,55 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/dpll.h
+# Enum:   anonymous, starts with DPLL_CMD_DEVICE_ID_GET
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-dpll`. Hand-written
+# descriptions live in metadata/netlink/genl/dpll.yaml and are
+# merged at load time.
+
+family: dpll
+
+operations:
+  1: { name: DEVICE_ID_GET }
+  2: { name: DEVICE_GET }
+  3: { name: DEVICE_SET }
+  4: { name: DEVICE_CREATE_NTF }
+  5: { name: DEVICE_DELETE_NTF }
+  6: { name: DEVICE_CHANGE_NTF }
+  7: { name: PIN_ID_GET }
+  8: { name: PIN_GET }
+  9: { name: PIN_SET }
+  10: { name: PIN_CREATE_NTF }
+  11: { name: PIN_DELETE_NTF }
+  12: { name: PIN_CHANGE_NTF }
+
+attribute_sets:
+  PIN:
+    1: { name: ID }
+    2: { name: PARENT_ID }
+    3: { name: MODULE_NAME }
+    4: { name: PAD }
+    5: { name: CLOCK_ID }
+    6: { name: BOARD_LABEL }
+    7: { name: PANEL_LABEL }
+    8: { name: PACKAGE_LABEL }
+    9: { name: TYPE }
+    10: { name: DIRECTION }
+    11: { name: FREQUENCY }
+    12: { name: FREQUENCY_SUPPORTED }
+    13: { name: FREQUENCY_MIN }
+    14: { name: FREQUENCY_MAX }
+    15: { name: PRIO }
+    16: { name: STATE }
+    17: { name: CAPABILITIES }
+    18: { name: PARENT_DEVICE }
+    19: { name: PARENT_PIN }
+    20: { name: PHASE_ADJUST_MIN }
+    21: { name: PHASE_ADJUST_MAX }
+    22: { name: PHASE_ADJUST }
+    23: { name: PHASE_OFFSET }
+    24: { name: FRACTIONAL_FREQUENCY_OFFSET }
+    25: { name: ESYNC_FREQUENCY }
+    26: { name: ESYNC_FREQUENCY_SUPPORTED }
+    27: { name: ESYNC_PULSE }

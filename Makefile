@@ -1,6 +1,12 @@
 # ykern build system — thin wrapper around cmake + ninja, mirroring yetty's
 # target naming so muscle memory carries over.
 
+# Pin to system tools so the build uses system gcc + system libc + system
+# library headers consistently. Mixing nix gcc with system libyaml (or any
+# system .so) drags two glibcs into one process and triggers spurious
+# __stack_chk_fail aborts during startup.
+SYSTEM_PATH := /usr/bin:/bin:/usr/local/bin:$(PATH)
+
 BUILD_DIR_DESKTOP_YTRACE_RELEASE := build-desktop-ytrace-release
 BUILD_DIR_DESKTOP_YTRACE_DEBUG   := build-desktop-ytrace-debug
 BUILD_DIR_DESKTOP_YTRACE_ASAN    := build-desktop-ytrace-asan
@@ -42,13 +48,13 @@ all: help
 
 .PHONY: config-desktop-ytrace-release
 config-desktop-ytrace-release: ## Configure desktop ytrace release build
-	$(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_RELEASE) $(GENERATOR) $(CMAKE_RELEASE) $(LAUNCHER)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_RELEASE) $(GENERATOR) $(CMAKE_RELEASE) $(LAUNCHER)
 	@ln -sfn $(BUILD_DIR_DESKTOP_YTRACE_RELEASE)/compile_commands.json compile_commands.json
 
 .PHONY: build-desktop-ytrace-release
 build-desktop-ytrace-release: ## Build desktop ytrace release (daily driver)
 	@if [ ! -f "$(BUILD_DIR_DESKTOP_YTRACE_RELEASE)/build.ninja" ]; then $(MAKE) config-desktop-ytrace-release; fi
-	$(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_RELEASE) $(CMAKE_PARALLEL)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_RELEASE) $(CMAKE_PARALLEL)
 
 .PHONY: run-desktop-ytrace-release
 run-desktop-ytrace-release: build-desktop-ytrace-release ## Build and run the smoke walker
@@ -64,13 +70,13 @@ ykern: build-desktop-ytrace-release ## Build and run the ykern CLI (use ARGS="..
 
 .PHONY: config-desktop-ytrace-debug
 config-desktop-ytrace-debug: ## Configure desktop ytrace debug build
-	$(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_DEBUG) $(GENERATOR) $(CMAKE_DEBUG) $(LAUNCHER)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_DEBUG) $(GENERATOR) $(CMAKE_DEBUG) $(LAUNCHER)
 	@ln -sfn $(BUILD_DIR_DESKTOP_YTRACE_DEBUG)/compile_commands.json compile_commands.json
 
 .PHONY: build-desktop-ytrace-debug
 build-desktop-ytrace-debug: ## Build desktop ytrace debug
 	@if [ ! -f "$(BUILD_DIR_DESKTOP_YTRACE_DEBUG)/build.ninja" ]; then $(MAKE) config-desktop-ytrace-debug; fi
-	$(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_DEBUG) $(CMAKE_PARALLEL)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_DEBUG) $(CMAKE_PARALLEL)
 
 #=============================================================================
 # Desktop — ytrace asan
@@ -78,16 +84,49 @@ build-desktop-ytrace-debug: ## Build desktop ytrace debug
 
 .PHONY: config-desktop-ytrace-asan
 config-desktop-ytrace-asan: ## Configure desktop ytrace ASAN build
-	$(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_ASAN) $(GENERATOR) $(CMAKE_ASAN) $(LAUNCHER)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) -B $(BUILD_DIR_DESKTOP_YTRACE_ASAN) $(GENERATOR) $(CMAKE_ASAN) $(LAUNCHER)
 
 .PHONY: build-desktop-ytrace-asan
 build-desktop-ytrace-asan: ## Build desktop ytrace ASAN
 	@if [ ! -f "$(BUILD_DIR_DESKTOP_YTRACE_ASAN)/build.ninja" ]; then $(MAKE) config-desktop-ytrace-asan; fi
-	$(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_ASAN) $(CMAKE_PARALLEL)
+	PATH="$(SYSTEM_PATH)" $(CMAKE) --build $(BUILD_DIR_DESKTOP_YTRACE_ASAN) $(CMAKE_PARALLEL)
 
 #=============================================================================
 # Cleanup + help
 #=============================================================================
+
+#=============================================================================
+# Metadata regeneration — extracts cmd-id ↔ name mappings from kernel
+# headers via libclang (Python wheel) and writes them to
+# metadata/netlink/genl/_generated/<family>.yaml. Hand-curated descriptions
+# live alongside, in metadata/netlink/genl/<family>.yaml; the loader merges
+# both at runtime.
+#=============================================================================
+
+EXTRACT_NETLINK := uv run tools/libclang/extract-netlink/extract-netlink.py
+
+.PHONY: regen-metadata-ethtool
+regen-metadata-ethtool: ## Regenerate the ethtool overlay's mechanical half from kernel headers
+	@mkdir -p metadata/netlink/genl/_generated
+	$(EXTRACT_NETLINK) \
+	    --header /usr/include/linux/ethtool_netlink.h \
+	    --start-marker ETHTOOL_MSG_USER_NONE \
+	    --strip-prefix ETHTOOL_MSG_ \
+	    --attr-prefix ETHTOOL_A_ \
+	    --family ethtool \
+	    --output metadata/netlink/genl/_generated/ethtool.yaml
+	@echo "wrote metadata/netlink/genl/_generated/ethtool.yaml"
+
+.PHONY: regen-metadata-all
+regen-metadata-all: ## Regenerate every family listed in families.yaml
+	@mkdir -p metadata/netlink/genl/_generated
+	uv run tools/libclang/extract-netlink/regen-all.py \
+	    --config tools/libclang/extract-netlink/families.yaml \
+	    --extractor tools/libclang/extract-netlink/extract-netlink.py \
+	    --out-dir metadata/netlink/genl/_generated
+
+.PHONY: regen-metadata
+regen-metadata: regen-metadata-all ## Alias for regen-metadata-all
 
 .PHONY: clean
 clean: ## Remove all build directories

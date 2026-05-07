@@ -20,6 +20,7 @@ const char *ykern_ycore_object_kind_name(enum ykern_ycore_object_kind kind)
     case YKERN_YCORE_OBJECT_KIND_NAMESPACE: return "namespace";
     case YKERN_YCORE_OBJECT_KIND_FAMILY: return "family";
     case YKERN_YCORE_OBJECT_KIND_OPERATION: return "operation";
+    case YKERN_YCORE_OBJECT_KIND_MCAST_GROUP: return "mcast-group";
     case YKERN_YCORE_OBJECT_KIND_ATTRIBUTE: return "attribute";
     case YKERN_YCORE_OBJECT_KIND_VALUE: return "value";
     }
@@ -163,6 +164,31 @@ struct ykern_ycore_void_result ykern_ycore_object_refresh(struct ykern_ycore_obj
     ykern_ycore_object_drop_children(self);
     self->children_populated = false;
     return YKERN_OK_VOID();
+}
+
+const char *ykern_ycore_invoke_args_lookup(const struct ykern_ycore_invoke_args *args,
+                                           const char *key)
+{
+    if (!args || !key) return NULL;
+    for (size_t i = 0; i < args->count; i++) {
+        if (args->entries[i].key && strcmp(args->entries[i].key, key) == 0) {
+            return args->entries[i].value;
+        }
+    }
+    return NULL;
+}
+
+struct ykern_ycore_text_result ykern_ycore_object_invoke(
+    struct ykern_ycore_object *self, const struct ykern_ycore_invoke_args *args)
+{
+    if (!self || !self->ops) {
+        return YKERN_ERR(ykern_ycore_text, "ykern_ycore_object_invoke: missing vtable");
+    }
+    if (!self->ops->invoke) {
+        return YKERN_ERR(ykern_ycore_text,
+                         "this object kind is not invokable (browse-only node)");
+    }
+    return self->ops->invoke(self, args);
 }
 
 /*-----------------------------------------------------------------------------

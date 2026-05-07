@@ -1,0 +1,30 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/ncsi.h
+# Enum:   anonymous, starts with NCSI_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-NCSI`. Hand-written
+# descriptions live in metadata/netlink/genl/NCSI.yaml and are
+# merged at load time.
+
+family: NCSI
+
+operations:
+  1: { name: PKG_INFO }
+  2: { name: SET_INTERFACE }
+  3: { name: CLEAR_INTERFACE }
+  4: { name: SEND_CMD }
+  5: { name: SET_PACKAGE_MASK }
+  6: { name: SET_CHANNEL_MASK }
+
+attribute_sets:
+  ATTRS:
+    1: { name: IFINDEX }
+    2: { name: PACKAGE_LIST }
+    3: { name: PACKAGE_ID }
+    4: { name: CHANNEL_ID }
+    5: { name: DATA }
+    6: { name: MULTI_FLAG }
+    7: { name: PACKAGE_MASK }
+    8: { name: CHANNEL_MASK }

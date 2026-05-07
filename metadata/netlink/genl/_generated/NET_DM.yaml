@@ -1,0 +1,53 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/net_dropmon.h
+# Enum:   anonymous, starts with NET_DM_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-NET_DM`. Hand-written
+# descriptions live in metadata/netlink/genl/NET_DM.yaml and are
+# merged at load time.
+
+family: NET_DM
+
+operations:
+  1: { name: ALERT }
+  2: { name: CONFIG }
+  3: { name: START }
+  4: { name: STOP }
+  5: { name: PACKET_ALERT }
+  6: { name: CONFIG_GET }
+  7: { name: CONFIG_NEW }
+  8: { name: STATS_GET }
+  9: { name: STATS_NEW }
+
+attribute_sets:
+  ATTRS:
+    1: { name: ALERT_MODE, type: u8 }
+    2: { name: PC, type: u64 }
+    3: { name: SYMBOL, type: string }
+    4: { name: IN_PORT, type: nested }
+    5: { name: TIMESTAMP, type: u64 }
+    6: { name: PROTO, type: u16 }
+    7: { name: PAYLOAD, type: binary }
+    8: { name: PAD }
+    9: { name: TRUNC_LEN, type: u32 }
+    10: { name: ORIG_LEN, type: u32 }
+    11: { name: QUEUE_LEN, type: u32 }
+    12: { name: STATS, type: nested }
+    13: { name: HW_STATS, type: nested }
+    14: { name: ORIGIN, type: u16 }
+    15: { name: HW_TRAP_GROUP_NAME, type: string }
+    16: { name: HW_TRAP_NAME, type: string }
+    17: { name: HW_ENTRIES, type: nested }
+    18: { name: HW_ENTRY, type: nested }
+    19: { name: HW_TRAP_COUNT, type: u32 }
+    20: { name: SW_DROPS, type: flag }
+    21: { name: HW_DROPS, type: flag }
+    22: { name: FLOW_ACTION_COOKIE, type: binary }
+    23: { name: REASON, type: string }
+  PORT:
+    0: { name: NETDEV_IFINDEX, type: u32 }
+    1: { name: NETDEV_NAME, type: string }
+  STATS:
+    0: { name: DROPPED, type: u64 }

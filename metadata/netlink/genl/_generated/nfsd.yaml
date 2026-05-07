@@ -1,0 +1,31 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/nfsd_netlink.h
+# Enum:   anonymous, starts with NFSD_CMD_RPC_STATUS_GET
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-nfsd`. Hand-written
+# descriptions live in metadata/netlink/genl/nfsd.yaml and are
+# merged at load time.
+
+family: nfsd
+
+operations:
+  1: { name: RPC_STATUS_GET }
+
+attribute_sets:
+  RPC_STATUS:
+    1: { name: XID }
+    2: { name: FLAGS }
+    3: { name: PROG }
+    4: { name: VERSION }
+    5: { name: PROC }
+    6: { name: SERVICE_TIME }
+    7: { name: PAD }
+    8: { name: SADDR4 }
+    9: { name: DADDR4 }
+    10: { name: SADDR6 }
+    11: { name: DADDR6 }
+    12: { name: SPORT }
+    13: { name: DPORT }
+    14: { name: COMPOUND_OPS }

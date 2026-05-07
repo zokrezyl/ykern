@@ -1,0 +1,45 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/thermal.h
+# Enum:   anonymous, starts with THERMAL_GENL_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-thermal`. Hand-written
+# descriptions live in metadata/netlink/genl/thermal.yaml and are
+# merged at load time.
+
+family: thermal
+
+operations:
+  1: { name: TZ_GET_ID }
+  2: { name: TZ_GET_TRIP }
+  3: { name: TZ_GET_TEMP }
+  4: { name: TZ_GET_GOV }
+  5: { name: TZ_GET_MODE }
+  6: { name: CDEV_GET }
+
+attribute_sets:
+  ATTRS:
+    1: { name: TZ }
+    2: { name: TZ_ID }
+    3: { name: TZ_TEMP }
+    4: { name: TZ_TRIP }
+    5: { name: TZ_TRIP_ID }
+    6: { name: TZ_TRIP_TYPE }
+    7: { name: TZ_TRIP_TEMP }
+    8: { name: TZ_TRIP_HYST }
+    9: { name: TZ_MODE }
+    10: { name: TZ_NAME }
+    11: { name: TZ_CDEV_WEIGHT }
+    12: { name: TZ_GOV }
+    13: { name: TZ_GOV_NAME }
+    14: { name: CDEV }
+    15: { name: CDEV_ID }
+    16: { name: CDEV_CUR_STATE }
+    17: { name: CDEV_MAX_STATE }
+    18: { name: CDEV_NAME }
+    19: { name: GOV_NAME }
+    20: { name: CPU_CAPABILITY }
+    21: { name: CPU_CAPABILITY_ID }
+    22: { name: CPU_CAPABILITY_PERFORMANCE }
+    23: { name: CPU_CAPABILITY_EFFICIENCY }

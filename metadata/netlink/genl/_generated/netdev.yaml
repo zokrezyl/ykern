@@ -1,0 +1,63 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/netdev.h
+# Enum:   anonymous, starts with NETDEV_CMD_DEV_GET
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-netdev`. Hand-written
+# descriptions live in metadata/netlink/genl/netdev.yaml and are
+# merged at load time.
+
+family: netdev
+
+operations:
+  1: { name: DEV_GET }
+  2: { name: DEV_ADD_NTF }
+  3: { name: DEV_DEL_NTF }
+  4: { name: DEV_CHANGE_NTF }
+  5: { name: PAGE_POOL_GET }
+  6: { name: PAGE_POOL_ADD_NTF }
+  7: { name: PAGE_POOL_DEL_NTF }
+  8: { name: PAGE_POOL_CHANGE_NTF }
+  9: { name: PAGE_POOL_STATS_GET }
+  10: { name: QUEUE_GET }
+  11: { name: NAPI_GET }
+
+attribute_sets:
+  DEV:
+    1: { name: IFINDEX }
+    2: { name: PAD }
+    3: { name: XDP_FEATURES }
+    4: { name: XDP_ZC_MAX_SEGS }
+    5: { name: XDP_RX_METADATA_FEATURES }
+    6: { name: XSK_FEATURES }
+  NAPI:
+    1: { name: IFINDEX }
+    2: { name: ID }
+    3: { name: IRQ }
+    4: { name: PID }
+  PAGE_POOL:
+    1: { name: ID }
+    2: { name: IFINDEX }
+    3: { name: NAPI_ID }
+    4: { name: INFLIGHT }
+    5: { name: INFLIGHT_MEM }
+    6: { name: DETACH_TIME }
+  PAGE_POOL_STATS:
+    1: { name: INFO }
+    8: { name: ALLOC_FAST }
+    9: { name: ALLOC_SLOW }
+    10: { name: ALLOC_SLOW_HIGH_ORDER }
+    11: { name: ALLOC_EMPTY }
+    12: { name: ALLOC_REFILL }
+    13: { name: ALLOC_WAIVE }
+    14: { name: RECYCLE_CACHED }
+    15: { name: RECYCLE_CACHE_FULL }
+    16: { name: RECYCLE_RING }
+    17: { name: RECYCLE_RING_FULL }
+    18: { name: RECYCLE_RELEASED_REFCNT }
+  QUEUE:
+    1: { name: ID }
+    2: { name: IFINDEX }
+    3: { name: TYPE }
+    4: { name: NAPI_ID }

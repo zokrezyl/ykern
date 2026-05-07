@@ -1,0 +1,31 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/tcp_metrics.h
+# Enum:   anonymous, starts with TCP_METRICS_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-tcp_metrics`. Hand-written
+# descriptions live in metadata/netlink/genl/tcp_metrics.yaml and are
+# merged at load time.
+
+family: tcp_metrics
+
+operations:
+  1: { name: GET }
+  2: { name: DEL }
+
+attribute_sets:
+  ATTRS:
+    1: { name: ADDR_IPV4, type: u32 }
+    2: { name: ADDR_IPV6, type: binary }
+    3: { name: AGE, type: msecs }
+    4: { name: TW_TSVAL, type: "u32, raw, rcv tsval" }
+    5: { name: TW_TS_STAMP, type: "s32, sec age" }
+    6: { name: VALS, type: "nested +1, u32" }
+    7: { name: FOPEN_MSS, type: u16 }
+    8: { name: FOPEN_SYN_DROPS, type: "u16, count of drops" }
+    9: { name: FOPEN_SYN_DROP_TS, type: msecs age }
+    10: { name: FOPEN_COOKIE, type: binary }
+    11: { name: SADDR_IPV4, type: u32 }
+    12: { name: SADDR_IPV6, type: binary }
+    13: { name: PAD }

@@ -1,0 +1,380 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/ethtool_netlink.h
+# Enum:   anonymous, starts with ETHTOOL_MSG_USER_NONE
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-ethtool`. Hand-written
+# descriptions live in metadata/netlink/genl/ethtool.yaml and are
+# merged at load time.
+
+family: ethtool
+
+operations:
+  1: { name: STRSET_GET }
+  2: { name: LINKINFO_GET }
+  3: { name: LINKINFO_SET }
+  4: { name: LINKMODES_GET }
+  5: { name: LINKMODES_SET }
+  6: { name: LINKSTATE_GET }
+  7: { name: DEBUG_GET }
+  8: { name: DEBUG_SET }
+  9: { name: WOL_GET }
+  10: { name: WOL_SET }
+  11: { name: FEATURES_GET }
+  12: { name: FEATURES_SET }
+  13: { name: PRIVFLAGS_GET }
+  14: { name: PRIVFLAGS_SET }
+  15: { name: RINGS_GET }
+  16: { name: RINGS_SET }
+  17: { name: CHANNELS_GET }
+  18: { name: CHANNELS_SET }
+  19: { name: COALESCE_GET }
+  20: { name: COALESCE_SET }
+  21: { name: PAUSE_GET }
+  22: { name: PAUSE_SET }
+  23: { name: EEE_GET }
+  24: { name: EEE_SET }
+  25: { name: TSINFO_GET }
+  26: { name: CABLE_TEST_ACT }
+  27: { name: CABLE_TEST_TDR_ACT }
+  28: { name: TUNNEL_INFO_GET }
+  29: { name: FEC_GET }
+  30: { name: FEC_SET }
+  31: { name: MODULE_EEPROM_GET }
+  32: { name: STATS_GET }
+  33: { name: PHC_VCLOCKS_GET }
+  34: { name: MODULE_GET }
+  35: { name: MODULE_SET }
+  36: { name: PSE_GET }
+  37: { name: PSE_SET }
+  38: { name: RSS_GET }
+  39: { name: PLCA_GET_CFG }
+  40: { name: PLCA_SET_CFG }
+  41: { name: PLCA_GET_STATUS }
+  42: { name: MM_GET }
+  43: { name: MM_SET }
+
+attribute_sets:
+  BITSET:
+    1: { name: NOMASK, type: flag }
+    2: { name: SIZE, type: u32 }
+    3: { name: BITS, type: nest - _A_BITSET_BITS_* }
+    4: { name: VALUE, type: binary }
+    5: { name: MASK, type: binary }
+  BITSET_BIT:
+    1: { name: INDEX, type: u32 }
+    2: { name: NAME, type: string }
+    3: { name: VALUE, type: flag }
+  BITSET_BITS:
+    1: { name: BIT, type: nest - _A_BITSET_BIT_* }
+  CABLE_AMPLITUDE:
+    1: { name: PAIR, type: u8 }
+    2: { name: mV, type: s16 }
+  CABLE_FAULT_LENGTH:
+    1: { name: PAIR, type: u8 ETHTOOL_A_CABLE_PAIR_ }
+    2: { name: CM, type: u32 }
+  CABLE_NEST:
+    1: { name: RESULT, type: nest - ETHTOOL_A_CABLE_RESULT_ }
+    2: { name: FAULT_LENGTH, type: nest - ETHTOOL_A_CABLE_FAULT_LENGTH_ }
+  CABLE_PULSE:
+    1: { name: mV, type: s16 }
+  CABLE_RESULT:
+    1: { name: PAIR, type: u8 ETHTOOL_A_CABLE_PAIR_ }
+    2: { name: CODE, type: u8 ETHTOOL_A_CABLE_RESULT_CODE_ }
+  CABLE_STEP:
+    1: { name: FIRST_DISTANCE, type: u32 }
+    2: { name: LAST_DISTANCE, type: u32 }
+    3: { name: STEP_DISTANCE, type: u32 }
+  CABLE_TDR_NEST:
+    1: { name: STEP, type: nest - ETHTTOOL_A_CABLE_STEP }
+    2: { name: AMPLITUDE, type: nest - ETHTOOL_A_CABLE_AMPLITUDE }
+    3: { name: PULSE, type: nest - ETHTOOL_A_CABLE_PULSE }
+  CABLE_TEST:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+  CABLE_TEST_NTF:
+    1: { name: HEADER, type: nest - ETHTOOL_A_HEADER_* }
+    2: { name: STATUS, type: u8 - _STARTED/_COMPLETE }
+    3: { name: NEST, type: "nest - of results:" }
+  CABLE_TEST_TDR:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: CFG, type: nest - *_TDR_CFG_* }
+  CABLE_TEST_TDR_CFG:
+    1: { name: FIRST, type: u32 }
+    2: { name: LAST, type: u32 }
+    3: { name: STEP, type: u32 }
+    4: { name: PAIR, type: u8 }
+  CABLE_TEST_TDR_NTF:
+    1: { name: HEADER, type: nest - ETHTOOL_A_HEADER_* }
+    2: { name: STATUS, type: u8 - _STARTED/_COMPLETE }
+    3: { name: NEST, type: "nest - of results:" }
+  CHANNELS:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: RX_MAX, type: u32 }
+    3: { name: TX_MAX, type: u32 }
+    4: { name: OTHER_MAX, type: u32 }
+    5: { name: COMBINED_MAX, type: u32 }
+    6: { name: RX_COUNT, type: u32 }
+    7: { name: TX_COUNT, type: u32 }
+    8: { name: OTHER_COUNT, type: u32 }
+    9: { name: COMBINED_COUNT, type: u32 }
+  COALESCE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: RX_USECS, type: u32 }
+    3: { name: RX_MAX_FRAMES, type: u32 }
+    4: { name: RX_USECS_IRQ, type: u32 }
+    5: { name: RX_MAX_FRAMES_IRQ, type: u32 }
+    6: { name: TX_USECS, type: u32 }
+    7: { name: TX_MAX_FRAMES, type: u32 }
+    8: { name: TX_USECS_IRQ, type: u32 }
+    9: { name: TX_MAX_FRAMES_IRQ, type: u32 }
+    10: { name: STATS_BLOCK_USECS, type: u32 }
+    11: { name: USE_ADAPTIVE_RX, type: u8 }
+    12: { name: USE_ADAPTIVE_TX, type: u8 }
+    13: { name: PKT_RATE_LOW, type: u32 }
+    14: { name: RX_USECS_LOW, type: u32 }
+    15: { name: RX_MAX_FRAMES_LOW, type: u32 }
+    16: { name: TX_USECS_LOW, type: u32 }
+    17: { name: TX_MAX_FRAMES_LOW, type: u32 }
+    18: { name: PKT_RATE_HIGH, type: u32 }
+    19: { name: RX_USECS_HIGH, type: u32 }
+    20: { name: RX_MAX_FRAMES_HIGH, type: u32 }
+    21: { name: TX_USECS_HIGH, type: u32 }
+    22: { name: TX_MAX_FRAMES_HIGH, type: u32 }
+    23: { name: RATE_SAMPLE_INTERVAL, type: u32 }
+    24: { name: USE_CQE_MODE_TX, type: u8 }
+    25: { name: USE_CQE_MODE_RX, type: u8 }
+    26: { name: TX_AGGR_MAX_BYTES, type: u32 }
+    27: { name: TX_AGGR_MAX_FRAMES, type: u32 }
+    28: { name: TX_AGGR_TIME_USECS, type: u32 }
+  DEBUG:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: MSGMASK, type: bitset }
+  EEE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: MODES_OURS, type: bitset }
+    3: { name: MODES_PEER, type: bitset }
+    4: { name: ACTIVE, type: u8 }
+    5: { name: ENABLED, type: u8 }
+    6: { name: TX_LPI_ENABLED, type: u8 }
+    7: { name: TX_LPI_TIMER, type: u32 }
+  FEATURES:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: HW, type: bitset }
+    3: { name: WANTED, type: bitset }
+    4: { name: ACTIVE, type: bitset }
+    5: { name: NOCHANGE, type: bitset }
+  FEC:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: MODES, type: bitset }
+    3: { name: AUTO, type: u8 }
+    4: { name: ACTIVE, type: u32 }
+    5: { name: STATS, type: nest - _A_FEC_STAT }
+  FEC_STAT:
+    1: { name: PAD }
+    2: { name: CORRECTED, type: "array, u64" }
+    3: { name: UNCORR, type: "array, u64" }
+    4: { name: CORR_BITS, type: "array, u64" }
+  HEADER:
+    1: { name: DEV_INDEX, type: u32 }
+    2: { name: DEV_NAME, type: string }
+    3: { name: FLAGS, type: u32 - ETHTOOL_FLAG_* }
+  LINKINFO:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: PORT, type: u8 }
+    3: { name: PHYADDR, type: u8 }
+    4: { name: TP_MDIX, type: u8 }
+    5: { name: TP_MDIX_CTRL, type: u8 }
+    6: { name: TRANSCEIVER, type: u8 }
+  LINKMODES:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: AUTONEG, type: u8 }
+    3: { name: OURS, type: bitset }
+    4: { name: PEER, type: bitset }
+    5: { name: SPEED, type: u32 }
+    6: { name: DUPLEX, type: u8 }
+    7: { name: MASTER_SLAVE_CFG, type: u8 }
+    8: { name: MASTER_SLAVE_STATE, type: u8 }
+    9: { name: LANES, type: u32 }
+    10: { name: RATE_MATCHING, type: u8 }
+  LINKSTATE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: LINK, type: u8 }
+    3: { name: SQI, type: u32 }
+    4: { name: SQI_MAX, type: u32 }
+    5: { name: EXT_STATE, type: u8 }
+    6: { name: EXT_SUBSTATE, type: u8 }
+    7: { name: EXT_DOWN_CNT, type: u32 }
+  MM:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: PMAC_ENABLED, type: u8 }
+    3: { name: TX_ENABLED, type: u8 }
+    4: { name: TX_ACTIVE, type: u8 }
+    5: { name: TX_MIN_FRAG_SIZE, type: u32 }
+    6: { name: RX_MIN_FRAG_SIZE, type: u32 }
+    7: { name: VERIFY_ENABLED, type: u8 }
+    8: { name: VERIFY_STATUS, type: u8 }
+    9: { name: VERIFY_TIME, type: u32 }
+    10: { name: MAX_VERIFY_TIME, type: u32 }
+    11: { name: STATS, type: nest - _A_MM_STAT_* }
+  MM_STAT:
+    1: { name: PAD }
+    2: { name: REASSEMBLY_ERRORS, type: u64 }
+    3: { name: SMD_ERRORS, type: u64 }
+    4: { name: REASSEMBLY_OK, type: u64 }
+    5: { name: RX_FRAG_COUNT, type: u64 }
+    6: { name: TX_FRAG_COUNT, type: u64 }
+    7: { name: HOLD_COUNT, type: u64 }
+  MODULE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: POWER_MODE_POLICY, type: u8 }
+    3: { name: POWER_MODE, type: u8 }
+  MODULE_EEPROM:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: OFFSET, type: u32 }
+    3: { name: LENGTH, type: u32 }
+    4: { name: PAGE, type: u8 }
+    5: { name: BANK, type: u8 }
+    6: { name: I2C_ADDRESS, type: u8 }
+    7: { name: DATA, type: binary }
+  PAUSE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: AUTONEG, type: u8 }
+    3: { name: RX, type: u8 }
+    4: { name: TX, type: u8 }
+    5: { name: STATS, type: nest - _PAUSE_STAT_* }
+    6: { name: STATS_SRC, type: u32 }
+  PAUSE_STAT:
+    1: { name: PAD }
+    2: { name: TX_FRAMES }
+    3: { name: RX_FRAMES }
+  PHC_VCLOCKS:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: NUM, type: u32 }
+    3: { name: INDEX, type: "array, s32" }
+  PLCA:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: VERSION, type: u16 }
+    3: { name: ENABLED, type: u8 }
+    4: { name: STATUS, type: u8 }
+    5: { name: NODE_CNT, type: u32 }
+    6: { name: NODE_ID, type: u32 }
+    7: { name: TO_TMR, type: u32 }
+    8: { name: BURST_CNT, type: u32 }
+    9: { name: BURST_TMR, type: u32 }
+  PRIVFLAGS:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: FLAGS, type: bitset }
+  PSE:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+  RINGS:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: RX_MAX, type: u32 }
+    3: { name: RX_MINI_MAX, type: u32 }
+    4: { name: RX_JUMBO_MAX, type: u32 }
+    5: { name: TX_MAX, type: u32 }
+    6: { name: RX, type: u32 }
+    7: { name: RX_MINI, type: u32 }
+    8: { name: RX_JUMBO, type: u32 }
+    9: { name: TX, type: u32 }
+    10: { name: RX_BUF_LEN, type: u32 }
+    11: { name: TCP_DATA_SPLIT, type: u8 }
+    12: { name: CQE_SIZE, type: u32 }
+    13: { name: TX_PUSH, type: u8 }
+    14: { name: RX_PUSH, type: u8 }
+    15: { name: TX_PUSH_BUF_LEN, type: u32 }
+    16: { name: TX_PUSH_BUF_LEN_MAX, type: u32 }
+  RSS:
+    1: { name: HEADER }
+    2: { name: CONTEXT, type: u32 }
+    3: { name: HFUNC, type: u32 }
+    4: { name: INDIR, type: binary }
+    5: { name: HKEY, type: binary }
+    6: { name: INPUT_XFRM, type: u32 }
+  STATS:
+    1: { name: PAD }
+    2: { name: HEADER, type: nest - _A_HEADER_* }
+    3: { name: GROUPS, type: bitset }
+    4: { name: GRP, type: nest - _A_STATS_GRP_* }
+    5: { name: SRC, type: u32 }
+  STATS_ETH_CTRL:
+    0: { name: 3_TX }
+    1: { name: 4_RX }
+    2: { name: 5_RX_UNSUP }
+  STATS_ETH_MAC:
+    0: { name: 2_TX_PKT }
+    1: { name: 3_SINGLE_COL }
+    2: { name: 4_MULTI_COL }
+    3: { name: 5_RX_PKT }
+    4: { name: 6_FCS_ERR }
+    5: { name: 7_ALIGN_ERR }
+    6: { name: 8_TX_BYTES }
+    7: { name: 9_TX_DEFER }
+    8: { name: 10_LATE_COL }
+    9: { name: 11_XS_COL }
+    10: { name: 12_TX_INT_ERR }
+    11: { name: 13_CS_ERR }
+    12: { name: 14_RX_BYTES }
+    13: { name: 15_RX_INT_ERR }
+    14: { name: 18_TX_MCAST }
+    15: { name: 19_TX_BCAST }
+    16: { name: 20_XS_DEFER }
+    17: { name: 21_RX_MCAST }
+    18: { name: 22_RX_BCAST }
+    19: { name: 23_IR_LEN_ERR }
+    20: { name: 24_OOR_LEN }
+    21: { name: 25_TOO_LONG_ERR }
+  STATS_ETH_PHY:
+    0: { name: 5_SYM_ERR }
+  STATS_GRP:
+    1: { name: PAD }
+    2: { name: ID, type: u32 }
+    3: { name: SS_ID, type: u32 }
+    4: { name: STAT, type: nest }
+    5: { name: HIST_RX, type: nest }
+    6: { name: HIST_TX, type: nest }
+    7: { name: HIST_BKT_LOW, type: u32 }
+    8: { name: HIST_BKT_HI, type: u32 }
+    9: { name: HIST_VAL, type: u64 }
+  STATS_RMON:
+    0: { name: UNDERSIZE }
+    1: { name: OVERSIZE }
+    2: { name: FRAG }
+    3: { name: JABBER }
+  STRING:
+    1: { name: INDEX, type: u32 }
+    2: { name: VALUE, type: string }
+  STRINGS:
+    1: { name: STRING, type: nest - _A_STRINGS_* }
+  STRINGSET:
+    1: { name: ID, type: u32 }
+    2: { name: COUNT, type: u32 }
+    3: { name: STRINGS, type: nest - _A_STRINGS_* }
+  STRINGSETS:
+    1: { name: STRINGSET, type: nest - _A_STRINGSET_* }
+  STRSET:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: STRINGSETS, type: nest - _A_STRINGSETS_* }
+    3: { name: COUNTS_ONLY, type: flag }
+  TSINFO:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: TIMESTAMPING, type: bitset }
+    3: { name: TX_TYPES, type: bitset }
+    4: { name: RX_FILTERS, type: bitset }
+    5: { name: PHC_INDEX, type: u32 }
+  TUNNEL_INFO:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: UDP_PORTS, type: nest - _UDP_TABLE }
+  TUNNEL_UDP:
+    1: { name: TABLE, type: nest - _UDP_TABLE_* }
+  TUNNEL_UDP_ENTRY:
+    1: { name: PORT, type: be16 }
+    2: { name: TYPE, type: u32 }
+  TUNNEL_UDP_TABLE:
+    1: { name: SIZE, type: u32 }
+    2: { name: TYPES, type: bitset }
+    3: { name: ENTRY, type: nest - _UDP_ENTRY_* }
+  WOL:
+    1: { name: HEADER, type: nest - _A_HEADER_* }
+    2: { name: MODES, type: bitset }
+    3: { name: SOPASS, type: binary }

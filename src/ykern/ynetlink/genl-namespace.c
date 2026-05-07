@@ -6,6 +6,7 @@
  * family into a child genl_family node.
  */
 
+#include "genl-overlay.h"
 #include "ynetlink-internal.h"
 
 #include <ykern/ycore/object.h>
@@ -97,6 +98,154 @@ static int send_dump_request(int fd, uint32_t seq)
     return 0;
 }
 
+/*-----------------------------------------------------------------------------
+ * Parse the nested CTRL_ATTR_OPS payload — list of per-op nlattrs, each
+ * containing CTRL_ATTR_OP_ID + CTRL_ATTR_OP_FLAGS. Returns owned array.
+ *---------------------------------------------------------------------------*/
+static struct ykern_ycore_void_result parse_ops_attr(struct nlattr *outer,
+                                                     struct ykern_ynetlink_genl_op_info **out_ops,
+                                                     size_t *out_count)
+{
+    *out_ops = NULL;
+    *out_count = 0;
+
+    int outer_len = (int)NLA_PAYLOAD(outer);
+    if (outer_len <= 0) {
+        return YKERN_OK_VOID();
+    }
+
+    /* First pass: count entries */
+    size_t count = 0;
+    {
+        int rem = outer_len;
+        struct nlattr *cur = (struct nlattr *)NLA_DATA(outer);
+        while (NLA_OK(cur, rem)) {
+            count++;
+            cur = NLA_NEXT(cur, rem);
+        }
+    }
+    if (count == 0) {
+        return YKERN_OK_VOID();
+    }
+
+    struct ykern_ynetlink_genl_op_info *ops = calloc(count, sizeof(*ops));
+    if (!ops) {
+        return YKERN_ERR(ykern_ycore_void, "parse_ops_attr: calloc failed");
+    }
+
+    /* Second pass: fill */
+    int rem = outer_len;
+    struct nlattr *cur = (struct nlattr *)NLA_DATA(outer);
+    size_t i = 0;
+    while (NLA_OK(cur, rem)) {
+        int sub_rem = (int)NLA_PAYLOAD(cur);
+        struct nlattr *sub = (struct nlattr *)NLA_DATA(cur);
+        while (NLA_OK(sub, sub_rem)) {
+            uint16_t t = sub->nla_type & NLA_TYPE_MASK;
+            if (t == CTRL_ATTR_OP_ID && (size_t)NLA_PAYLOAD(sub) >= sizeof(uint32_t)) {
+                memcpy(&ops[i].id, NLA_DATA(sub), sizeof(uint32_t));
+            } else if (t == CTRL_ATTR_OP_FLAGS &&
+                       (size_t)NLA_PAYLOAD(sub) >= sizeof(uint32_t)) {
+                memcpy(&ops[i].flags, NLA_DATA(sub), sizeof(uint32_t));
+            }
+            sub = NLA_NEXT(sub, sub_rem);
+        }
+        i++;
+        cur = NLA_NEXT(cur, rem);
+    }
+
+    *out_ops = ops;
+    *out_count = count;
+    return YKERN_OK_VOID();
+}
+
+/*-----------------------------------------------------------------------------
+ * Parse the nested CTRL_ATTR_MCAST_GROUPS payload — list of per-group
+ * nlattrs containing CTRL_ATTR_MCAST_GRP_ID + CTRL_ATTR_MCAST_GRP_NAME.
+ *---------------------------------------------------------------------------*/
+static struct ykern_ycore_void_result parse_mcast_attr(
+    struct nlattr *outer, struct ykern_ynetlink_genl_mcast_info **out_groups, size_t *out_count)
+{
+    *out_groups = NULL;
+    *out_count = 0;
+
+    int outer_len = (int)NLA_PAYLOAD(outer);
+    if (outer_len <= 0) {
+        return YKERN_OK_VOID();
+    }
+
+    size_t count = 0;
+    {
+        int rem = outer_len;
+        struct nlattr *cur = (struct nlattr *)NLA_DATA(outer);
+        while (NLA_OK(cur, rem)) {
+            count++;
+            cur = NLA_NEXT(cur, rem);
+        }
+    }
+    if (count == 0) {
+        return YKERN_OK_VOID();
+    }
+
+    struct ykern_ynetlink_genl_mcast_info *grps = calloc(count, sizeof(*grps));
+    if (!grps) {
+        return YKERN_ERR(ykern_ycore_void, "parse_mcast_attr: calloc failed");
+    }
+
+    int rem = outer_len;
+    struct nlattr *cur = (struct nlattr *)NLA_DATA(outer);
+    size_t i = 0;
+    while (NLA_OK(cur, rem)) {
+        int sub_rem = (int)NLA_PAYLOAD(cur);
+        struct nlattr *sub = (struct nlattr *)NLA_DATA(cur);
+        while (NLA_OK(sub, sub_rem)) {
+            uint16_t t = sub->nla_type & NLA_TYPE_MASK;
+            if (t == CTRL_ATTR_MCAST_GRP_ID && (size_t)NLA_PAYLOAD(sub) >= sizeof(uint32_t)) {
+                memcpy(&grps[i].id, NLA_DATA(sub), sizeof(uint32_t));
+            } else if (t == CTRL_ATTR_MCAST_GRP_NAME) {
+                size_t plen = (size_t)NLA_PAYLOAD(sub);
+                if (plen > 0) {
+                    char *name = malloc(plen + 1);
+                    if (!name) {
+                        /* Free what we've built so far */
+                        for (size_t j = 0; j < count; j++) {
+                            free(grps[j].name);
+                        }
+                        free(grps);
+                        return YKERN_ERR(ykern_ycore_void, "parse_mcast_attr: malloc failed");
+                    }
+                    memcpy(name, NLA_DATA(sub), plen);
+                    name[plen] = '\0';
+                    /* Strip trailing NULs the kernel may have included. */
+                    size_t real = strnlen(name, plen);
+                    name[real] = '\0';
+                    free(grps[i].name); /* in case set twice */
+                    grps[i].name = name;
+                }
+            }
+            sub = NLA_NEXT(sub, sub_rem);
+        }
+        i++;
+        cur = NLA_NEXT(cur, rem);
+    }
+
+    *out_groups = grps;
+    *out_count = count;
+    return YKERN_OK_VOID();
+}
+
+/* Free a parsed mcast array on error paths. */
+static void free_mcast_array(struct ykern_ynetlink_genl_mcast_info *groups, size_t count)
+{
+    if (!groups) {
+        return;
+    }
+    for (size_t i = 0; i < count; i++) {
+        free(groups[i].name);
+    }
+    free(groups);
+}
+
 /* Parse one CTRL_CMD_NEWFAMILY message into a freshly created family node and
  * append it to `parent`. */
 static struct ykern_ycore_void_result process_family_msg(struct ykern_ycore_object *parent,
@@ -118,6 +267,11 @@ static struct ykern_ycore_void_result process_family_msg(struct ykern_ycore_obje
     uint32_t maxattr = 0;
     int have_name = 0;
     int have_id = 0;
+
+    struct ykern_ynetlink_genl_op_info *ops = NULL;
+    size_t op_count = 0;
+    struct ykern_ynetlink_genl_mcast_info *grps = NULL;
+    size_t grp_count = 0;
 
     int attrs_len =
         (int)nh->nlmsg_len - (int)NLMSG_LENGTH((int)NLA_ALIGN(sizeof(struct genlmsghdr)));
@@ -161,8 +315,24 @@ static struct ykern_ycore_void_result process_family_msg(struct ykern_ycore_obje
             }
             break;
         }
+        case CTRL_ATTR_OPS: {
+            struct ykern_ycore_void_result r = parse_ops_attr(na, &ops, &op_count);
+            if (YKERN_IS_ERR(r)) {
+                free_mcast_array(grps, grp_count);
+                return YKERN_ERR(ykern_ycore_void, "genl dump: ops parse failed", r);
+            }
+            break;
+        }
+        case CTRL_ATTR_MCAST_GROUPS: {
+            struct ykern_ycore_void_result r = parse_mcast_attr(na, &grps, &grp_count);
+            if (YKERN_IS_ERR(r)) {
+                free(ops);
+                return YKERN_ERR(ykern_ycore_void, "genl dump: mcast parse failed", r);
+            }
+            break;
+        }
         default:
-            /* CTRL_ATTR_OPS, CTRL_ATTR_MCAST_GROUPS — skipped for v1. */
+            /* Other CTRL_ATTR_* — ignored for now. */
             break;
         }
         na = NLA_NEXT(na, attrs_len);
@@ -170,12 +340,35 @@ static struct ykern_ycore_void_result process_family_msg(struct ykern_ycore_obje
 
     if (!have_name || !have_id) {
         ywarn("genl dump: family msg missing name or id; skipping");
+        free(ops);
+        free_mcast_array(grps, grp_count);
         return YKERN_OK_VOID();
     }
 
     struct ykern_ynetlink_genl_family_ptr_result fr =
         ykern_ynetlink_genl_family_create(family_name, family_id, version, hdrsize, maxattr);
-    YKERN_RETURN_IF_ERR(ykern_ycore_void, fr, "genl dump: family create failed");
+    if (YKERN_IS_ERR(fr)) {
+        free(ops);
+        free_mcast_array(grps, grp_count);
+        return YKERN_ERR(ykern_ycore_void, "genl dump: family create failed", fr);
+    }
+
+    /* Hand ownership of ops / mcast arrays to the family. */
+    ykern_ynetlink_genl_family_set_ops(fr.value, ops, op_count);
+    ykern_ynetlink_genl_family_set_mcast_groups(fr.value, grps, grp_count);
+
+    /* Best-effort overlay load. A missing overlay is normal; only a
+     * malformed file is an error, and even then we degrade to the synthetic
+     * representation rather than failing the whole dump. */
+    struct ykern_ynetlink_genl_family_overlay_ptr_result overlay_r =
+        ykern_ynetlink_genl_overlay_load(family_name);
+    if (YKERN_IS_OK(overlay_r)) {
+        ykern_ynetlink_genl_family_set_overlay(fr.value, overlay_r.value);
+    } else {
+        ywarn("genl dump: overlay load failed for '%s' (%s); continuing without",
+              family_name, overlay_r.error.msg ? overlay_r.error.msg : "?");
+        ykern_ycore_error_destroy(overlay_r.error);
+    }
 
     struct ykern_ycore_void_result ar =
         ykern_ycore_object_append_child(parent, &fr.value->base);

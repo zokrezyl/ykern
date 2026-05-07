@@ -28,6 +28,8 @@ add_compile_options(
 # Modules — order matches dependency DAG
 add_subdirectory(src/ykern/ycore)
 add_subdirectory(src/ykern/ynetlink)
+add_subdirectory(src/ykern/ysys)
+add_subdirectory(src/ykern/yproc)
 
 # Callers consume ykern by linking the module libraries they need:
 #   target_link_libraries(<your_target> PRIVATE ykern_ycore ykern_ynetlink)

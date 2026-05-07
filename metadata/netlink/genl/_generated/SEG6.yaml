@@ -1,0 +1,27 @@
+# GENERATED FILE — DO NOT EDIT BY HAND.
+#
+# Source: /usr/include/linux/seg6_genl.h
+# Enum:   anonymous, starts with SEG6_CMD_UNSPEC
+# Tool:   tools/libclang/extract-netlink/extract-netlink.py
+#
+# Refresh with `make regen-metadata-SEG6`. Hand-written
+# descriptions live in metadata/netlink/genl/SEG6.yaml and are
+# merged at load time.
+
+family: SEG6
+
+operations:
+  1: { name: SETHMAC }
+  2: { name: DUMPHMAC }
+  3: { name: SET_TUNSRC }
+  4: { name: GET_TUNSRC }
+
+attribute_sets:
+  ATTRS:
+    1: { name: DST }
+    2: { name: DSTLEN }
+    3: { name: HMACKEYID }
+    4: { name: SECRET }
+    5: { name: SECRETLEN }
+    6: { name: ALGID }
+    7: { name: HMACINFO }
